@@ -16,10 +16,8 @@ reverseTaps (DaPhone daPhone) c
   | isUpper c = mapMaybe convert ['^', toLower c]
   | otherwise = mapMaybe convert [c]
   where convert :: Char -> Maybe (Digit, Press)
-        convert x                   = daCharToTuple =<< find (isWantedSymbol x) daPhone 
-                                    
-        daCharToTuple :: DaChar -> Maybe (Digit, Press)
-        daCharToTuple DaChar{..}    = Just (button, presses)
+        convert x                   = daCharToTuple <$> find (isWantedSymbol x) daPhone 
+        daCharToTuple DaChar{..}    = (button, presses)
         isWantedSymbol :: Char -> DaChar -> Bool
         isWantedSymbol x DaChar{..} = x == symbol
 
